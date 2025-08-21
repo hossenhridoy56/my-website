@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Leave Application{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">HIRE COMPANY</h1>
+    <h2 class="text-center">APPLICATION FOR LEAVE</h2>
+    
+    <form action="{{ url_for('generate_leave_doc') }}" method="POST">
+        <input type="hidden" name="employee_id" value="{{ employee.id }}">
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Personal Info</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Date</label>
+                        <input type="text" class="form-control" value="{{ today_date }}" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Employee ID</label>
+                        <input type="text" class="form-control" value="T{{ employee.id|string|zfill(6) }}" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" value="{{ employee.name }}" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Designation</label>
+                        <input type="text" class="form-control" value="{{ employee.position }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile Number" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Leave Request</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>From Date</label>
+                        <input type="date" class="form-control" name="start_date" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>To Date</label>
+                        <input type="date" class="form-control" name="end_date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select class="form-control" name="leave_type" required>
+                        <option value="Casual Leave">Casual Leave</option>
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Without Pay">Without Pay</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Explanation</label>
+                    <textarea class="form-control" name="explanation" placeholder="Reason for leave" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Last Leave Date</label>
+                    <input type="date" class="form-control" name="last_leave_date">
+                </div>
+                <div class="form-group">
+                    <label>Emergency Contact</label>
+                    <input type="text" class="form-control" name="emergency_contact" placeholder="Emergency Contact Number" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Leave Details</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Total Casual Leave</label>
+                        <input type="text" class="form-control" name="total_casual" value="{{ leave_data.total_casual }}">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Total Taken</label>
+                        <input type="text" class="form-control" name="taken_casual" value="{{ leave_data.taken_casual }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Total Sick Leave</label>
+                        <input type="text" class="form-control" name="total_sick" value="{{ leave_data.total_sick }}">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Taken Sick Leave</label>
+                        <input type="text" class="form-control" name="taken_sick" value="{{ leave_data.taken_sick }}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label>Total Without Pay</label>
+                        <input type="text" class="form-control" name="total_nopay" value="{{ leave_data.total_nopay }}">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label>Taken Without Pay</label>
+                        <input type="text" class="form-control" name="taken_nopay" value="{{ leave_data.taken_nopay }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Generate Leave Document</button>
+    </form>
+    <a href="{{ url_for('list_employees') }}" class="btn btn-link btn-block mt-3">← Back to Employee List</a>
+</div>
+{% endblock %}
